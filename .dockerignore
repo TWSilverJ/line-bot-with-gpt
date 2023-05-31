@@ -1,0 +1,16 @@
+# env
+.env
+
+# git
+.git
+.gitignore
+
+# npm
+node_modules/
+npm-debug.log
+
+# else
+*.example
+.eslintrc.json
+LICENSE
+README.md

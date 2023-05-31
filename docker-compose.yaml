@@ -1,0 +1,12 @@
+services:
+  app:
+    container_name: line-bot-with-gpt
+    image: line-bot-with-gpt
+    build: .
+    restart: always
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - APP_URL=
