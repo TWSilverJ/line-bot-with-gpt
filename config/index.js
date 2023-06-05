@@ -3,7 +3,7 @@ import { normalizePort } from '../utils/index.js'
 
 // 讀取 .env
 dotenv.config()
-const { env } = process
+const { cwd, env } = process
 
 export const appConfig = {
   APP_ENV: env.NODE_ENV || 'production',
@@ -12,14 +12,22 @@ export const appConfig = {
   APP_PORT: normalizePort(env.PORT || '3000')
 }
 
+/**
+ * @type {any}
+ * @description {import('sequelize').Options}
+ */
+export const databaseConfig = {
+  dialect: env.DB_DIALECT || 'sqlite',
+  storage: `${cwd()}/private/db.sqlite3`
+}
+
 export const lineMessageAPIConfig = {
   LINE_BASE_URL: env.LINE_BASE_URL || 'https://api.line.me/v2',
-  LINE_CHANNEL_ACCESS_TOKEN: env.LINE_MESSAGE_CHANNEL_ACCESS_TOKEN,
-  LINE_CHANNEL_SECRET: env.LINE_MESSAGE_CHANNEL_SECRET
+  LINE_CHANNEL_ACCESS_TOKEN: env.LINE_MESSAGE_CHANNEL_ACCESS_TOKEN || '',
+  LINE_CHANNEL_SECRET: env.LINE_MESSAGE_CHANNEL_SECRET || ''
 }
 
 export const openAiAPIConfig = {
-  OPENAI_TIMEOUT: env.OPENAI_TIMEOUT || env.APP_API_TIMEOUT,
   OPENAI_API_KEY: env.OPENAI_API_KEY || null,
   OPENAI_BASE_URL: env.OPENAI_BASE_URL || 'https://api.openai.com',
   OPENAI_COMPLETION_MODEL: env.OPENAI_COMPLETION_MODEL || 'gpt-3.5-turbo',

@@ -1,4 +1,4 @@
 export * from './formatData.js'
-export * from './lineMessage.js'
-export * from './openAi.js'
+export * from './lineMessageAPI.js'
+export * from './openAiAPI.js'
 export * from './validateSignature.js'
