@@ -5,29 +5,14 @@ import { normalizePort } from '../utils/index.js'
 dotenv.config()
 const { cwd, env } = process
 
-export const appConfig = {
+export const config = {
   APP_ENV: env.NODE_ENV || 'production',
   APP_DEBUG: String(env.APP_DEBUG).toLocaleLowerCase() === 'true' || false,
   APP_URL: env.APP_URL || null,
-  APP_PORT: normalizePort(env.PORT || '3000')
-}
-
-/**
- * @type {any}
- * @description {import('sequelize').Options}
- */
-export const databaseConfig = {
-  dialect: env.DB_DIALECT || 'sqlite',
-  storage: `${cwd()}/private/db.sqlite3`
-}
-
-export const lineMessageAPIConfig = {
+  APP_PORT: normalizePort(env.PORT || '3000'),
   LINE_BASE_URL: env.LINE_BASE_URL || 'https://api.line.me/v2',
   LINE_CHANNEL_ACCESS_TOKEN: env.LINE_MESSAGE_CHANNEL_ACCESS_TOKEN || '',
-  LINE_CHANNEL_SECRET: env.LINE_MESSAGE_CHANNEL_SECRET || ''
-}
-
-export const openAiAPIConfig = {
+  LINE_CHANNEL_SECRET: env.LINE_MESSAGE_CHANNEL_SECRET || '',
   OPENAI_API_KEY: env.OPENAI_API_KEY || null,
   OPENAI_BASE_URL: env.OPENAI_BASE_URL || 'https://api.openai.com',
   OPENAI_COMPLETION_MODEL: env.OPENAI_COMPLETION_MODEL || 'gpt-3.5-turbo',
@@ -36,4 +21,9 @@ export const openAiAPIConfig = {
   OPENAI_COMPLETION_FREQUENCY_PENALTY: Number(env.OPENAI_COMPLETION_FREQUENCY_PENALTY) || 0,
   OPENAI_COMPLETION_PRESENCE_PENALTY: Number(env.OPENAI_COMPLETION_PRESENCE_PENALTY) || 0.6,
   OPENAI_IMAGE_GENERATION_SIZE: env.OPENAI_IMAGE_GENERATION_SIZE || '256x256',
+}
+
+export const databaseConfig: any = {
+  dialect: env.DB_DIALECT || 'sqlite',
+  storage: `${cwd()}/private/db.sqlite3`
 }

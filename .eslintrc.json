@@ -3,13 +3,33 @@
     "es2021": true,
     "node": true
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "overrides": [],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "rules": {
+    "@typescript-eslint/explicit-member-accessibility": [
+      "error",
+      {
+        "overrides": {
+          "constructors": "off"
+        }
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": "error",
+    "eol-last": [
+      "error",
+      "always"
+    ],
     "indent": [
       "error",
       2,
@@ -21,6 +41,7 @@
       "error",
       "unix"
     ],
+    "no-unused-vars": "off",
     "quotes": [
       "error",
       "single"
