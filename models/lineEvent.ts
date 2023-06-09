@@ -9,20 +9,27 @@ export const MESSAGE_TYPE_TEXT = 'text'
 export const ACTION_TYPE_MESSAGE = 'message'
 
 export class LineEvent {
-  type
+  /**
+   * 事件種類
+   */
+  public type: string
 
-  replyToken
+  /**
+   * 回覆令牌
+   */
+  public replyToken: string
 
-  source
+  public source
 
-  message
+  public message
 
-  constructor({
-    type,
-    replyToken,
-    source,
-    message,
-  }) {
+  constructor(input: any) {
+    const {
+      type,
+      replyToken,
+      source,
+      message,
+    } = input
     this.type = type
     this.replyToken = replyToken
     this.source = source
@@ -32,42 +39,42 @@ export class LineEvent {
   /**
    * @returns {boolean}
    */
-  get isMessage() {
+  public get isMessage() {
     return this.type === EVENT_TYPE_MESSAGE
   }
 
   /**
    * @returns {boolean}
    */
-  get isGroup() {
+  public get isGroup() {
     return this.source.type === SOURCE_TYPE_GROUP
   }
 
   /**
    * @returns {boolean}
    */
-  get isUser() {
+  public get isUser() {
     return this.source.type === SOURCE_TYPE_USER
   }
 
   /**
    * @returns {boolean}
    */
-  get isText() {
+  public get isText() {
     return this.message.type === MESSAGE_TYPE_TEXT
   }
 
   /**
    * @returns {string}
    */
-  get groupId() {
+  public get groupId() {
     return this.source.groupId
   }
 
   /**
    * @returns {string}
    */
-  get userId() {
+  public get userId() {
     return this.source.userId
   }
 
@@ -75,7 +82,7 @@ export class LineEvent {
    * 訊息 ID
    * @returns {string}
    */
-  get messageId() {
+  public get messageId() {
     return this.message.id
   }
 
@@ -83,7 +90,7 @@ export class LineEvent {
    * 訊息內容
    * @returns {string}
    */
-  get text() {
+  public get text() {
     return this.message.text
   }
 }

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { openAiAPIConfig } from '../config/index.js'
+import { config } from '../config/index.js'
 
 const client = axios.create({
   baseURL: 'https://api.openai.com',
@@ -10,7 +10,7 @@ const client = axios.create({
 })
 
 client.interceptors.request.use(option => {
-  option.headers.Authorization = `Bearer ${openAiAPIConfig.OPENAI_API_KEY}`
+  option.headers.Authorization = `Bearer ${config.OPENAI_API_KEY}`
   return option
 })
 
@@ -23,12 +23,12 @@ export function isChatCompletionModel(model) {
 }
 
 export const createChatCompletion = ({
-  model = openAiAPIConfig.OPENAI_COMPLETION_MODEL,
+  model = config.OPENAI_COMPLETION_MODEL,
   messages,
-  temperature = openAiAPIConfig.OPENAI_COMPLETION_TEMPERATURE,
-  maxTokens = openAiAPIConfig.OPENAI_COMPLETION_MAX_TOKENS,
-  frequencyPenalty = openAiAPIConfig.OPENAI_COMPLETION_FREQUENCY_PENALTY,
-  presencePenalty = openAiAPIConfig.OPENAI_COMPLETION_PRESENCE_PENALTY,
+  temperature = config.OPENAI_COMPLETION_TEMPERATURE,
+  maxTokens = config.OPENAI_COMPLETION_MAX_TOKENS,
+  frequencyPenalty = config.OPENAI_COMPLETION_FREQUENCY_PENALTY,
+  presencePenalty = config.OPENAI_COMPLETION_PRESENCE_PENALTY,
 }) => client.post('/v1/chat/completions', {
   model,
   messages,
@@ -39,12 +39,12 @@ export const createChatCompletion = ({
 })
 
 export const createTextCompletion = ({
-  model = openAiAPIConfig.OPENAI_COMPLETION_MODEL,
+  model = config.OPENAI_COMPLETION_MODEL,
   prompt,
-  temperature = openAiAPIConfig.OPENAI_COMPLETION_TEMPERATURE,
-  maxTokens = openAiAPIConfig.OPENAI_COMPLETION_MAX_TOKENS,
-  frequencyPenalty = openAiAPIConfig.OPENAI_COMPLETION_FREQUENCY_PENALTY,
-  presencePenalty = openAiAPIConfig.OPENAI_COMPLETION_PRESENCE_PENALTY,
+  temperature = config.OPENAI_COMPLETION_TEMPERATURE,
+  maxTokens = config.OPENAI_COMPLETION_MAX_TOKENS,
+  frequencyPenalty = config.OPENAI_COMPLETION_FREQUENCY_PENALTY,
+  presencePenalty = config.OPENAI_COMPLETION_PRESENCE_PENALTY,
   stop = ['<END>'],
 }) => client.post('/v1/completions', {
   model,

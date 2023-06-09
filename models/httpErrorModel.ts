@@ -1,14 +1,13 @@
-import { HttpStatusCode, IHttpError } from '../interfaces/httpResponse.js'
-
 /**
  * HTTP error
  */
-export abstract class HttpError<T> extends Error implements IHttpError<T> {
-  public code: HttpStatusCode
+export abstract class HttpError<T> extends Error {
+  public code: number
+  public message: string
   public error?: T
 
   constructor(
-    code: HttpStatusCode,
+    code: number,
     name: string,
     message: string,
     error?: T

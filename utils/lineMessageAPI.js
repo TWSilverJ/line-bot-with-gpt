@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { lineMessageAPIConfig } from '../config/index.js'
+import { config } from '../config/index.js'
 
 const lineMessageAPI = axios.create({
   baseURL: 'https://api.line.me/v2',
@@ -11,7 +11,7 @@ const lineMessageAPI = axios.create({
 })
 
 lineMessageAPI.interceptors.request.use(option => {
-  option.headers.Authorization = `Bearer ${lineMessageAPIConfig.LINE_CHANNEL_ACCESS_TOKEN}`
+  option.headers.Authorization = `Bearer ${config.LINE_CHANNEL_ACCESS_TOKEN}`
   return option
 })
 

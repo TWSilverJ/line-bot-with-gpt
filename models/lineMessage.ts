@@ -2,42 +2,42 @@ export class LineMessage {
   /**
    * @type {string}
    */
-  id
+  public id: string
 
   /**
    * @type {string}
    */
-  userId
+  public userId: string
 
   /**
    * @type {string}
    */
-  message
+  public message: string
 
   /**
    * @type {string}
    */
-  reply
+  public reply: string
 
   /**
    * @type {number}
    */
-  promptToken
+  public promptToken: number
 
   /**
    * @type {number}
    */
-  completionToken
+  public completionToken: number
 
   /**
    * @type {number}
    */
-  totalToken
+  public totalToken: number
 
   /**
    * @param {any} input 
    */
-  constructor(input) {
+  constructor(input: any) {
     this.id = input.id
     this.userId = input.userId
     this.message = input.message

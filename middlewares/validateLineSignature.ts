@@ -1,4 +1,4 @@
-import express from 'express'
+import { Request, Response, NextFunction } from 'express'
 import { injectable } from 'inversify'
 import { BaseMiddleware } from 'inversify-express-utils'
 
@@ -19,9 +19,9 @@ export class ValidateLineSignature extends BaseMiddleware {
   }
 
   public handler(
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
   ): void {
     try {
       // 從 config 取得 channel secret

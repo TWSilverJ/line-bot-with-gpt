@@ -1,5 +1,5 @@
 import { openAiAPIConfig } from '../config/index.js'
-import { LineEvent } from '../models/index.js'
+import { LineEventForm } from '../models/index.js'
 import { lineRepository } from '../repositories/index.js'
 import { createChatCompletion, createTextCompletion, isChatCompletionModel, sendReplyMessage } from '../utils/index.js'
 

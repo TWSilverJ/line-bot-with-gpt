@@ -9,8 +9,10 @@ import { InversifyExpressServer } from 'inversify-express-utils'
 import logger from 'morgan'
 import http from 'node:http'
 import os from 'node:os'
+import path from 'node:path'
 
 import { config } from './config/index.js'
+import './controllers/index.js'
 import { httpRequestLogger, notFoundHandler, clientErrorHandler, internalServerErrorHandler } from './middlewares/index.js'
 import { getEndpointInfo, setEndpointUrl, testEndpoint } from './utils/lineMessageAPI.js'
 import { container } from './inversify.config.js'
@@ -23,7 +25,8 @@ const builder = new InversifyExpressServer(container)
 // 設定路由前中間件
 builder.setConfig(app => {
   app.use(logger('dev'))
-  app.use(express.static(process.cwd() + '/public'))
+  app.use(express.static(path.join(process.cwd(), 'public')))
+  app.use(express.urlencoded({ extended: false }))
   app.use(express.json({ limit: '2mb' }))
   app.use('/api', cors())
   app.use('/api', httpRequestLogger)
