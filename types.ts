@@ -3,6 +3,8 @@
  */
 export const TYPES = {
   Config: Symbol.for('Config'),
+  Model: Symbol.for('Model'),
+
   Test: Symbol.for('Test'),
   TestMiddleware: Symbol.for('TestMiddleware'),
 

@@ -1,11 +1,12 @@
 import * as db from '../sequelize/index.js'
 import { LineMessage } from '../models/index.js'
+import { Identifier } from 'sequelize'
 
 /**
  * List user Line message
  * @param {string} userId 
  */
-export async function listMessage(userId) {
+export async function listMessage(userId: any) {
   const list = await db.LineMessage.findAll({
     where: { userId },
     order: [
@@ -22,11 +23,12 @@ export async function listMessage(userId) {
  * @param {string} data.userId
  * @param {string} data.message
  */
-export async function createMessage(data) {
-  const item = await db.LineMessage.create({
+export async function createMessage(data: { userId: any; message: any }) {
+  const test: any = {
     userId: data.userId,
     message: data.message
-  })
+  }
+  const item = await db.LineMessage.create(test)
   return new LineMessage(item)
 }
 
@@ -34,7 +36,7 @@ export async function createMessage(data) {
  * Read Line
  * @param {string} id
  */
-export async function readMessage(id) {
+export async function readMessage(id: Identifier | undefined) {
   const item = await db.LineMessage.findByPk(id)
   return item ? new LineMessage(item) : null
 }
@@ -48,7 +50,7 @@ export async function readMessage(id) {
  * @param {number | undefined} data.completionToken
  * @param {number | undefined} data.totalToken
  */
-export function updateMessage(id, data) {
+export function updateMessage(id: string, data: { reply: any; promptToken: any; completionToken: any; totalToken: any }) {
   return db.LineMessage.update({
     reply: data.reply,
     promptToken: data.promptToken,

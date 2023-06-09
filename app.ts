@@ -14,7 +14,7 @@ import path from 'node:path'
 import { config } from './config/index.js'
 import './controllers/index.js'
 import { httpRequestLogger, notFoundHandler, clientErrorHandler, internalServerErrorHandler } from './middlewares/index.js'
-import { getEndpointInfo, setEndpointUrl, testEndpoint } from './utils/lineMessageAPI.js'
+import { getEndpointInfo, setEndpointUrl, testEndpoint } from './utils/lineMessage.js'
 import { container } from './inversify.config.js'
 
 // 註冊服務
