@@ -2,17 +2,17 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 
 /** 產生鹽 */
-export async function genSalt(rounds?: number | undefined) {
+export async function bcryptGenSalt(rounds?: number | undefined) {
   return bcrypt.genSalt(rounds)
 }
 
 /** 產生密碼雜湊 */
-export async function hash(s: string, salt: string | number): Promise<string> {
+export async function bcryptHash(s: string, salt: string | number = 10): Promise<string> {
   return bcrypt.hash(s, salt)
 }
 
 /** 比對雜湊 */
-export function compare(s: string, hash: string): Promise<boolean> {
+export function bcryptCompare(s: string, hash: string): Promise<boolean> {
   return bcrypt.compare(s, hash)
 }
 

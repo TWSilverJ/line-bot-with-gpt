@@ -5,6 +5,10 @@ export const TYPES = {
   Config: Symbol.for('Config'),
   Model: Symbol.for('Model'),
 
+  UserRepository:Symbol.for('UserRepository'),
+
+  UserService:Symbol.for('UserService'),
+
   Test: Symbol.for('Test'),
   TestMiddleware: Symbol.for('TestMiddleware'),
 

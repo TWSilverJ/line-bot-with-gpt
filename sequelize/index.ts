@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize'
 
 import { databaseConfig } from '../config/index.js'
 import { LineMessage } from './line.js'
-import { User } from './user.js'
+import { User, UserLogin } from './user.js'
 
 // 資料庫連線
 const sequelize = new Sequelize(databaseConfig)
@@ -16,12 +16,14 @@ LineMessage.initModel(sequelize)
 
 // User
 User.initModel(sequelize)
+UserLogin.initModel(sequelize)
 // await sequelize.sync()
 
 export {
   sequelize,
 
   LineMessage,
-  
-  User
+
+  User,
+  UserLogin
 }

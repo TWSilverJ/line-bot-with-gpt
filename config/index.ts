@@ -8,8 +8,9 @@ const { cwd, env } = process
 export const config = {
   APP_ENV: env.NODE_ENV || 'production',
   APP_DEBUG: String(env.APP_DEBUG).toLocaleLowerCase() === 'true' || false,
-  APP_URL: env.APP_URL || null,
   APP_PORT: normalizePort(env.PORT || '3000'),
+  APP_URL: env.APP_URL || null,
+  JWT_TOKEN: env.JWT_TOKEN || '',
   LINE_BASE_URL: env.LINE_BASE_URL || 'https://api.line.me/v2',
   LINE_CHANNEL_ACCESS_TOKEN: env.LINE_MESSAGE_CHANNEL_ACCESS_TOKEN || '',
   LINE_CHANNEL_SECRET: env.LINE_MESSAGE_CHANNEL_SECRET || '',
