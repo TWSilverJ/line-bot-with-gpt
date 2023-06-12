@@ -1,4 +1,4 @@
-import { BaseWebhookEvent } from './webhookEventModel.js'
+import { BaseWebhookEvent } from './baseModel.js'
 
 /**
  * Line webhook 事件基本類別
@@ -31,13 +31,13 @@ class LineWebhookEventSource {
 export class LineWebhookMessageEvent extends LineBaseWebhookEvent {
   public type = 'message'
   public replyToken: string
-  public message: LineWebhookEventMessage
+  public message: LineWebhookMessageEventMessage
 }
 
 /**
  * Line webhook message 事件內容
  */
-export class LineWebhookEventMessage {
+export class LineWebhookMessageEventMessage {
   public type: 'text' | 'image' | 'video'
   public text?: string
   public image?: string

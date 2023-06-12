@@ -17,11 +17,16 @@ client.interceptors.request.use(option => {
 /**
  * @param {string} model
  */
-export function isChatCompletionModel(model) {
+export function isChatCompletionModel(model: string) {
   if (typeof model !== 'string') { model = String(model) }
   return model.startsWith('gpt-4') || model.startsWith('gpt-3.5')
 }
 
+/**
+ * Create chat completion
+ * @param {any} param0 
+ * @returns 
+ */
 export const createChatCompletion = ({
   model = config.OPENAI_COMPLETION_MODEL,
   messages,
@@ -29,7 +34,7 @@ export const createChatCompletion = ({
   maxTokens = config.OPENAI_COMPLETION_MAX_TOKENS,
   frequencyPenalty = config.OPENAI_COMPLETION_FREQUENCY_PENALTY,
   presencePenalty = config.OPENAI_COMPLETION_PRESENCE_PENALTY,
-}) => client.post('/v1/chat/completions', {
+}: any) => client.post('/v1/chat/completions', {
   model,
   messages,
   temperature,
@@ -38,6 +43,11 @@ export const createChatCompletion = ({
   presence_penalty: presencePenalty,
 })
 
+/**
+ * Create text completion
+ * @param {any} param0 
+ * @returns 
+ */
 export const createTextCompletion = ({
   model = config.OPENAI_COMPLETION_MODEL,
   prompt,
@@ -47,7 +57,7 @@ export const createTextCompletion = ({
   frequencyPenalty = config.OPENAI_COMPLETION_FREQUENCY_PENALTY,
   presencePenalty = config.OPENAI_COMPLETION_PRESENCE_PENALTY,
   stop = ['<END>'],
-}) => client.post('/v1/completions', {
+}: any) => client.post('/v1/completions', {
   model,
   prompt,
   temperature,

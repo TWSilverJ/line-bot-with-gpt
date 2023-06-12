@@ -29,7 +29,7 @@ export function getEndpointInfo() {
  * 設定 Line channel endpoint
  * @param {string} endpoint 
  */
-export function setEndpointUrl(endpoint) {
+export function setEndpointUrl(endpoint: string) {
   return lineMessageAPI.put('/bot/channel/webhook/endpoint', { endpoint })
 }
 
@@ -37,7 +37,7 @@ export function setEndpointUrl(endpoint) {
  * 測試 Line channel endpoint
  * @param {string | undefined} endpoint 
  */
-export function testEndpoint(endpoint) {
+export function testEndpoint(endpoint?: string) {
   return lineMessageAPI.post('/bot/channel/webhook/test', { endpoint })
 }
 
@@ -50,7 +50,7 @@ export function testEndpoint(endpoint) {
  * @param {any[]} body.messages 
  * @param {boolean} [body.notificationDisabled] 
  */
-export function sendReplyMessage(body) {
+export function sendReplyMessage(body: { replyToken: string; messages: any[]; notificationDisabled?: boolean }) {
   return lineMessageAPI.post('/bot/message/reply', body)
 }
 
@@ -60,6 +60,6 @@ export function sendReplyMessage(body) {
  * Get profile
  * @param {string} userId 
  */
-export function getProfile(userId) {
+export function getProfile(userId: string) {
   return lineMessageAPI.get(`/bot/profile/${userId}`)
 }
