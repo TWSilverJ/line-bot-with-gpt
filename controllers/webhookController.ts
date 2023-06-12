@@ -1,13 +1,15 @@
 import { Response } from 'express'
 import { BaseHttpController, controller, httpPost, requestBody, response } from 'inversify-express-utils'
 
-import { InternalServerError, LineBaseWebhookEvent, WebhookEventList } from '../models/index.js'
+import { config } from '../config/index.js'
+import { InternalServerError, LineBaseWebhookEvent, LineWebhookMessageEvent, WebhookEventList } from '../models/index.js'
+import { createTextCompletion, sendReplyMessage } from '../utils/index.js'
 import { TYPES } from '../types.js'
 
 @controller('/webhook')
 export class WebhookController extends BaseHttpController {
-  @httpPost('/line', TYPES.ValidateLineSignature)
-  public lineWebhook(
+  @httpPost('/', TYPES.ValidateLineSignature)
+  public async lineWebhook(
     @requestBody() body: WebhookEventList<LineBaseWebhookEvent>,
     @response() res: Response
   ) {
@@ -21,15 +23,38 @@ export class WebhookController extends BaseHttpController {
     // 事件中繼：多事件處理
     const errors: Error[] = []
     for (const event of body.events) {
-      console.log(event)
-      // try {
-      //   const lineMessageEventHandler = container.get()
-      //   await lineMessageEventHandler.handlerAsync(event)
-      // } catch (error) {
-      //   const message = error.response?.data?.error?.message ? error.response.data.error.message : error.message
-      //   console.error(message)
-      //   errors.push(error)
-      // }
+      // 只處理直接對話的 message 事件
+      if (event.type === 'message' && event.source?.type === 'user') {
+        const messageEvent = event as LineWebhookMessageEvent
+
+        // 取出訊息
+        const text = messageEvent.message.text || ''
+
+        // OpenAI 請求
+        const prompt: any = {
+          model: config.OPENAI_COMPLETION_MODEL,
+          maxTokens: 500,
+          temperature: 0.5,
+          top_p: 0.3,
+          stop: [
+            '\nuser:',
+            '\nassistant:',
+            '\n<END>'
+          ],
+          prompt: `user: ${text}\nassistant:`
+        }
+        const response = await createTextCompletion(prompt)
+
+        // 回覆訊息
+        const message = {
+          type: 'text',
+          text: response.data.choices[0].text.trim()
+        }
+        await sendReplyMessage({
+          replyToken: messageEvent.replyToken,
+          messages: [message]
+        })
+      }
     }
 
     // 錯誤回報
