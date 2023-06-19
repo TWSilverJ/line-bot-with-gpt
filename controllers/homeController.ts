@@ -1,7 +1,7 @@
 import { BaseHttpController, controller, httpGet, requestParam } from 'inversify-express-utils'
 
+import { TYPES } from '../config/index.js'
 import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError, TeapotError, UnauthorizedError } from '../models/httpErrorModel.js'
-import { TYPES } from '../types.js'
 
 @controller('/api')
 export class HomeController extends BaseHttpController {

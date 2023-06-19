@@ -1,16 +1,15 @@
 import { Response } from 'express'
 import { BaseHttpController, controller, httpPost, requestBody, response } from 'inversify-express-utils'
 
-import { config } from '../config/index.js'
-import { InternalServerError, LineBaseWebhookEvent, LineWebhookMessageEvent, WebhookEventList } from '../models/index.js'
+import { config, TYPES } from '../config/index.js'
+import { InternalServerError, BaseLineWebhookEvent, LineWebhookMessageEvent, WebhookEventList } from '../models/index.js'
 import { createTextCompletion, sendReplyMessage } from '../utils/index.js'
-import { TYPES } from '../types.js'
 
 @controller('/webhook')
 export class WebhookController extends BaseHttpController {
   @httpPost('/', TYPES.ValidateLineSignature)
   public async lineWebhook(
-    @requestBody() body: WebhookEventList<LineBaseWebhookEvent>,
+    @requestBody() body: WebhookEventList<BaseLineWebhookEvent>,
     @response() res: Response
   ) {
     // 回覆訊息

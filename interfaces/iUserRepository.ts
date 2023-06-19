@@ -3,15 +3,15 @@ import { User, UserDto, UserLogin, UserLoginDto } from '../models/index.js'
 export interface IUserRepository {
   // User
   /**
-   * 列出使用者清單
-   */
-  listUser(): Promise<User[]>
-
-  /**
    * 建立使用者
    * @param data 使用者資料
-   */
+  */
   createUser(data: UserDto): Promise<User>
+
+  /**
+   * 取得使用者清單
+   */
+  getUserListAsync(): Promise<User[]>
 
   /**
    * 取得使用者

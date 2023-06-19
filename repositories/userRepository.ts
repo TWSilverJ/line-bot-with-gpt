@@ -1,19 +1,14 @@
 import { inject, injectable } from 'inversify'
 
+import { TYPES } from '../config/index.js'
 import { IUserRepository } from '../interfaces/index.js'
 import { User, UserDto, UserLogin, UserLoginDto } from '../models/index.js'
 import * as sequelizeModels from '../sequelize/index.js'
-import { TYPES } from '../types.js'
 
 @injectable()
 export class UserRepository implements IUserRepository {
+  @inject(TYPES.Model)
   private readonly _models: typeof sequelizeModels
-
-  constructor(
-    @inject(TYPES.Model) models: typeof sequelizeModels
-  ) {
-    this._models = models
-  }
 
   // User
   /**
@@ -29,7 +24,7 @@ export class UserRepository implements IUserRepository {
     return user
   }
 
-  public async listUser(): Promise<User[]> {
+  public async getUserListAsync(): Promise<User[]> {
     // 資料庫查詢
     const list = await this._models.User.findAll()
 

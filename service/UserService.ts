@@ -2,23 +2,18 @@ import { bcryptHash } from '../utils/cryptoHash.js'
 import { inject, injectable } from 'inversify'
 import jwt from 'jsonwebtoken'
 
-import { config } from '../config/index.js'
+import { config, TYPES } from '../config/index.js'
 import { IUserRepository, IUserService } from '../interfaces/index.js'
 import { User, UserAccountDto, UserDto, UserLogin, UserLoginDto } from '../models/index.js'
-import { TYPES } from '../types.js'
 
 @injectable()
 export class UserService implements IUserService {
+  // DI 注入
+  @inject(TYPES.Config)
   private _config: typeof config
-  private _userRepository: IUserRepository
 
-  constructor(
-    @inject(TYPES.Config) appConfig: typeof config,
-    @inject(TYPES.UserRepository) userRepository: IUserRepository
-  ) {
-    this._config = config
-    this._userRepository = userRepository
-  }
+  @inject(TYPES.UserRepository)
+  private _userRepository: IUserRepository
 
   // User
   public async createUser(data: UserDto): Promise<User | null> {

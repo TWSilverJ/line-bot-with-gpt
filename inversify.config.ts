@@ -1,9 +1,8 @@
 import { Container } from 'inversify'
 
-import { config } from './config/index.js'
+import { config, TYPES } from './config/index.js'
 import { ValidateLineSignature, TestMiddleware } from './middlewares/index.js'
 import * as models from './sequelize/index.js'
-import { TYPES } from './types.js'
 
 // 進行 DI 注入
 const container = new Container()
