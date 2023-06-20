@@ -27,7 +27,7 @@ export class Line extends Model<InferAttributes<Line>, InferCreationAttributes<L
     deletedAt: DataTypes.DATE
   }, {
     sequelize,
-    tableName: 'line_message',
+    tableName: 'line',
     paranoid: true,
     underscored: true
   })
@@ -41,6 +41,10 @@ export class LineEvent extends Model<InferAttributes<LineEvent>, InferCreationAt
   public declare webhookEventId: string
   public declare type: string
   public declare timestamp: Date
+  public declare source: string | null
+  public declare userId: string | null
+  public declare roomId: string | null
+  public declare groupId: string | null
   public declare createdAt: CreationOptional<Date>
   public declare updatedAt: CreationOptional<Date>
   public declare deletedAt: Date | null
@@ -54,6 +58,10 @@ export class LineEvent extends Model<InferAttributes<LineEvent>, InferCreationAt
     webhookEventId: DataTypes.STRING,
     type: DataTypes.STRING,
     timestamp: DataTypes.DATE,
+    source: DataTypes.STRING,
+    userId: DataTypes.STRING,
+    roomId: DataTypes.STRING,
+    groupId: DataTypes.STRING,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
     deletedAt: DataTypes.DATE

@@ -1,6 +1,7 @@
-import { Line, LineDto } from '../models/index.js'
+import { Line, LineDto, LineMessage, LineMessageDto } from '../models/index.js'
 
 export interface ILineRepository {
+  // Line
   /**
    * 建立 Line 實例
    * @param data Line 資料傳遞物件
@@ -39,4 +40,18 @@ export interface ILineRepository {
    * @param force 是否強制刪除
    */
   deleteLineAsync(id: string, force?: boolean): Promise<number>
+
+
+  // Line message
+  /**
+   * 建立訊息記錄
+   * @param data Line message 資料傳遞物件
+   */
+  createLineMessageAsync(data:LineMessageDto):Promise<LineMessage>
+
+  /**
+   * 取得訊息記錄清單
+   * @param userId Line user ID
+   */
+  getLineMessageListByUserIdAsync(userId?:string):Promise<LineMessage[]>
 }

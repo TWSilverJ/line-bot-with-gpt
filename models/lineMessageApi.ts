@@ -6,7 +6,7 @@ export class LineMessageApi {
 
   constructor(accessToken: string) {
     this._client = axios.create({
-      baseURL: 'https://api.line.me/v2',
+      baseURL: 'https://api.line.me/v2/',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`
@@ -15,7 +15,7 @@ export class LineMessageApi {
     })
 
     this._dataClient = axios.create({
-      baseURL: 'https://api.line.me/v2',
+      baseURL: 'https://api.line.me/v2/',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`
@@ -30,7 +30,7 @@ export class LineMessageApi {
    * 取得 Line channel endpoint
    */
   public getEndpointInfo(): Promise<AxiosResponse> {
-    return this._client.get('/bot/channel/webhook/endpoint')
+    return this._client.get('bot/channel/webhook/endpoint')
   }
 
   /**
@@ -38,7 +38,7 @@ export class LineMessageApi {
    * @param endpoint 
    */
   public setEndpointUrl(endpoint: string): Promise<AxiosResponse> {
-    return this._client.put('/bot/channel/webhook/endpoint', { endpoint })
+    return this._client.put('bot/channel/webhook/endpoint', { endpoint })
   }
 
   /**
@@ -46,7 +46,7 @@ export class LineMessageApi {
    * @param endpoint 
    */
   public testEndpoint(endpoint?: string): Promise<AxiosResponse> {
-    return this._client.post('/bot/channel/webhook/test', { endpoint })
+    return this._client.post('bot/channel/webhook/test', { endpoint })
   }
 
 
@@ -59,7 +59,7 @@ export class LineMessageApi {
    * @param {boolean} [body.notificationDisabled] 
    */
   public sendReplyMessage(body: { replyToken: string; messages: any[]; notificationDisabled?: boolean }): Promise<AxiosResponse> {
-    return this._client.post('/bot/message/reply', body)
+    return this._client.post('bot/message/reply', body)
   }
 
 
@@ -69,6 +69,6 @@ export class LineMessageApi {
    * @param {string} userId 
    */
   public getProfile(userId: string): Promise<AxiosResponse> {
-    return this._client.get(`/bot/profile/${userId}`)
+    return this._client.get(`bot/profile/${userId}`)
   }
 }

@@ -1,51 +1,32 @@
-import { openAiAPIConfig } from '../config/index.js'
-import { LineEventForm } from '../models/index.js'
-import { lineRepository } from '../repositories/index.js'
-import { createChatCompletion, createTextCompletion, isChatCompletionModel, sendReplyMessage } from '../utils/index.js'
+import { inject, injectable } from 'inversify'
 
-export async function handlerAsync(input) {
-  // 只處理個人聊天訊息事件
-  const event = new LineEvent(input)
-  if (!event.isUser || !event.isMessage || !event.isText) { return }
+import { TYPES, config } from '../config/index.js'
+import { ILineService, IWebhookEventHandler } from '../interfaces/index.js'
+import { LineMessageEvent } from '../models/index.js'
 
-  // 儲存訊息
-  const lineMessage = await lineRepository.createMessage({
-    userId: event.userId,
-    message: event.text
-  })
+@injectable()
+export class LineMessageEventHandler implements IWebhookEventHandler {
+  @inject(TYPES.Config)
+  private readonly _config: typeof config
 
-  // 取得歷史訊息
-  const list = await lineRepository.listMessage(event.userId)
-  let prompt = ''
-  list.forEach(item => {
-    const { message, reply } = item
-    let text = `User: ${message}\nAgent:`
-    if (reply) { text += ` ${reply}` }
-    prompt = text + prompt
-  })
+  @inject(TYPES.LineService)
+  private readonly _lineService: ILineService
 
-  // 呼叫 GPT
-  const isChat = isChatCompletionModel(openAiAPIConfig.OPENAI_COMPLETION_MODEL)
-  let response = isChat
-    ? await createChatCompletion({ messages: event.message.text })
-    : await createTextCompletion({ prompt })
+  public async handler(event: LineMessageEvent): Promise<void> {
+    // 處理事件
+    switch (event.message.type) {
+      case 'text':
+        await this.textMessageEvent(event)
+        break
 
-  // 儲存回覆
-  const { choices, usage } = response.data
-  const reply = choices[0].text.trim()
-  await lineRepository.updateMessage(lineMessage.id, {
-    reply,
-    promptToken: usage.prompt_tokens,
-    completionToken: usage.completion_tokens,
-    totalToken: usage.total_tokens
-  })
+      default:
+        throw Error(`未定義訊息種類： ${event.message.type}`)
+    }
+  }
 
-  // 製作文字回覆
-  const lineTextMessage = { type: 'text', text: reply }
-
-  // 回覆訊息
-  response = await sendReplyMessage({
-    replyToken: event.replyToken,
-    messages: [lineTextMessage]
-  })
+  /**
+   * 文字訊息事件
+   * @param event 訊息事件
+   */
+  private async textMessageEvent(event: LineMessageEvent): Promise<void> { }
 }

@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify'
 
 import { TYPES, config } from '../config/index.js'
 import { ILineRepository, ILineService } from '../interfaces/index.js'
-import { Line, LineDto, LineMessageApi } from '../models/index.js'
+import { Line, LineDto, LineEvent, LineMessage, LineMessageApi, LineMessageDto, LineWebhookBaseEvent } from '../models/index.js'
 
 @injectable()
 export class LineService implements ILineService {
@@ -12,7 +12,8 @@ export class LineService implements ILineService {
   @inject(TYPES.LineRepository)
   private readonly _linerepository: ILineRepository
 
-  public async addFollowerAsync(userId: string): Promise<Line> {
+  // Line
+  public async createOrUpdateFollowerAsync(userId: string): Promise<Line> {
     // 取得 Line 資料
     const lineMessageAPI = new LineMessageApi(this._config.LINE_CHANNEL_ACCESS_TOKEN)
     const response = await lineMessageAPI.getProfile(userId)
@@ -44,7 +45,19 @@ export class LineService implements ILineService {
     }
   }
 
-  public storeLineEvent(): any[] {
-    throw new Error('Method not implemented.')
+
+  // Line event
+  public async storeLineEvent(event: LineWebhookBaseEvent): Promise<LineEvent> {
+    console.log(event)
+    return new LineEvent('', new Date())
+  }
+
+  // Line message
+  public storeLineMessageAsync(data: LineMessageDto): Promise<LineMessage> {
+    return this._linerepository.createLineMessageAsync(data)
+  }
+
+  public getLineMessageAsync(userId: string): Promise<LineMessage[]> {
+    return this._linerepository.getLineMessageListByUserIdAsync(userId)
   }
 }

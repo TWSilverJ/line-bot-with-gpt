@@ -1,9 +1,8 @@
 import { injectable, inject } from 'inversify'
-import { Identifier } from 'sequelize'
 
 import { TYPES } from '../config/index.js'
 import { ILineRepository } from '../interfaces/index.js'
-import { Line, LineDto, LineMessage } from '../models/index.js'
+import { Line, LineDto, LineMessage, LineMessageDto } from '../models/index.js'
 import * as models from '../sequelize/index.js'
 
 @injectable()
@@ -14,7 +13,7 @@ export class LineRepository implements ILineRepository {
   // Line
   /**
    * 建立 Line 實例
-   */
+  */
   private _createLineEntity(data: models.Line): Line {
     const line = new Line(data.id, data.createdAt)
     line.userId = data.userId
@@ -91,64 +90,46 @@ export class LineRepository implements ILineRepository {
     // 操作資料庫並輸出
     return this._models.Line.destroy({ where: { id }, force })
   }
-}
 
 
-/**
- * List user Line message
- * @param {string} userId 
- */
-export async function listMessage(userId: any) {
-  const list = await models.LineMessage.findAll({
-    where: { userId },
-    order: [
-      ['createdAt', 'DESC']
-    ],
-    limit: 5
-  })
-  return list.map(item => new LineMessage(item))
-}
-
-/**
- * Create Line message
- * @param {Object} data
- * @param {string} data.userId
- * @param {string} data.message
- */
-export async function createMessage(data: { userId: any; message: any }) {
-  const test: any = {
-    userId: data.userId,
-    message: data.message
+  // LineMessage
+  /**
+   * 建立 LineMessage 實例
+   * @param data 
+   * @returns 
+   */
+  private _createLineMessageEntity(data: models.LineMessage): LineMessage {
+    const lineMessage = new LineMessage(data.id, data.createdAt)
+    lineMessage.userId = data.userId
+    lineMessage.message = data.message
+    lineMessage.reply = data.reply
+    lineMessage.promptToken = data.promptToken
+    lineMessage.completionToken = data.completionToken
+    lineMessage.totalToken = data.totalToken
+    lineMessage.updatedAt = data.updatedAt
+    lineMessage.deletedAt = data.deletedAt
+    return lineMessage
   }
-  const item = await models.LineMessage.create(test)
-  return new LineMessage(item)
-}
 
-/**
- * Read Line
- * @param {string} id
- */
-export async function readMessage(id: Identifier | undefined) {
-  const item = await models.LineMessage.findByPk(id)
-  return item ? new LineMessage(item) : null
-}
+  public async createLineMessageAsync(data: LineMessageDto): Promise<LineMessage> {
+    // 寫入資料庫
+    const item = await this._models.LineMessage.create(data as any)
 
-/**
- * Update Line
- * @param {string} id
- * @param {Object} data
- * @param {string | undefined} data.reply
- * @param {number | undefined} data.promptToken
- * @param {number | undefined} data.completionToken
- * @param {number | undefined} data.totalToken
- */
-export function updateMessage(id: string, data: { reply: any; promptToken: any; completionToken: any; totalToken: any }) {
-  return models.LineMessage.update({
-    reply: data.reply,
-    promptToken: data.promptToken,
-    completionToken: data.completionToken,
-    totalToken: data.totalToken
-  }, {
-    where: { id }
-  })
+    // 整理並輸出資料
+    return this._createLineMessageEntity(item)
+  }
+
+  public async getLineMessageListByUserIdAsync(userId?: string): Promise<LineMessage[]> {
+    // 資料庫查詢
+    const list = await this._models.LineMessage.findAll({
+      where: { userId },
+      order: [
+        ['createdAt', 'DESC']
+      ],
+      limit: 5
+    })
+
+    // 整理並輸出資料
+    return list.map(item => this._createLineMessageEntity(item))
+  }
 }

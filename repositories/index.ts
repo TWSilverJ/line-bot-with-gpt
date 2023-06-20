@@ -1,1 +1,1 @@
-export * as lineRepository from './lineRepository.js'
+export * from './lineRepository.js'

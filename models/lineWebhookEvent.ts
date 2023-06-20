@@ -3,7 +3,7 @@ import { BaseWebhookEvent } from './baseModel.js'
 /**
  * Line webhook 事件清單
  */
-export class LineWebhookEventList<T extends BaseLineWebhookEvent> {
+export class LineWebhookEventList<T extends LineWebhookBaseEvent> {
   /**
    * User ID of a bot that should receive webhook events. The user ID value is a string that matches the regular expression, U[0-9a-f]{32}.
    */
@@ -18,7 +18,7 @@ export class LineWebhookEventList<T extends BaseLineWebhookEvent> {
 /**
  * Line webhook 事件基本類別
  */
-export abstract class BaseLineWebhookEvent extends BaseWebhookEvent {
+export abstract class LineWebhookBaseEvent extends BaseWebhookEvent {
   /**
    * Channel state.
    */
@@ -32,7 +32,7 @@ export abstract class BaseLineWebhookEvent extends BaseWebhookEvent {
   /**
    * Source user, group chat, or multi-person chat object with information about the source of the event.
    */
-  public source?: LineWebhookEventSource
+  public source?: LineEventSource
 
   /**
    * Webhook Event ID. An ID that uniquely identifies a webhook event. This is a string in ULID format.
@@ -52,7 +52,7 @@ class DeliveryContext {
 /**
  * Line webhook 事件來源
  */
-class LineWebhookEventSource {
+class LineEventSource {
   public type: 'user' | 'group' | 'room'
   public userId?: string
   public groupId?: string
@@ -62,16 +62,17 @@ class LineWebhookEventSource {
 /**
  * Line webhook message 事件
  */
-export class LineWebhookMessageEvent extends BaseLineWebhookEvent {
+export class LineMessageEvent extends LineWebhookBaseEvent {
   public type = 'message'
+  public declare source: LineEventSource
   public replyToken: string
-  public message: LineWebhookMessageEventMessage
+  public message: LineMessageEventMessage
 }
 
 /**
  * Line webhook message 事件內容
  */
-export class LineWebhookMessageEventMessage {
+export class LineMessageEventMessage {
   public id: string
   public type: 'text' | 'image' | 'video'
   public text?: string
@@ -84,13 +85,13 @@ export class LineWebhookMessageEventMessage {
 /**
  * Line webhook follow 事件
  */
-export class LineWebhookFollowEvent extends BaseLineWebhookEvent {
+export class LineFollowEvent extends LineWebhookBaseEvent {
   public type = 'follow'
 }
 
 /**
  * Line webhook unfollow 事件
  */
-export class LineWebhookUnfollowEvent extends BaseLineWebhookEvent {
+export class LineUnfollowEvent extends LineWebhookBaseEvent {
   public type = 'unfollow'
 }

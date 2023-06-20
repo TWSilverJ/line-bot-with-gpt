@@ -24,6 +24,17 @@ export class LineEventSourceDto extends BaseDtoModel {
   public groupId?: string
 }
 
-export class LineEventMessageDto extends BaseDtoModel { 
-  public type: 'text' | 'group' | 'room'
+export class LineEventMessageDto extends BaseDtoModel {
+  public type: 'text' | 'image'
+}
+
+export class LineMessageDto {
+  public id?: string
+  public userId?: string
+  public message?: string
+  public reply?: string
+  public promptToken?: number
+  public completionToken?: number
+  public totalToken?: number
+  public deletedAt?: Date | null
 }

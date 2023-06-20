@@ -2,7 +2,7 @@ import { bcryptHash } from '../utils/cryptoHash.js'
 import { inject, injectable } from 'inversify'
 import jwt from 'jsonwebtoken'
 
-import { config, TYPES } from '../config/index.js'
+import { TYPES, config } from '../config/index.js'
 import { IUserRepository, IUserService } from '../interfaces/index.js'
 import { User, UserAccountDto, UserDto, UserLogin, UserLoginDto } from '../models/index.js'
 

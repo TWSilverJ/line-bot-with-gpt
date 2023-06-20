@@ -5,13 +5,16 @@ export const TYPES = {
   Config: Symbol.for('Config'),
   Model: Symbol.for('Model'),
 
-  LineRepository:Symbol.for('LineRepository'),
-  UserRepository:Symbol.for('UserRepository'),
+  LineRepository: Symbol.for('LineRepository'),
+  UserRepository: Symbol.for('UserRepository'),
 
-  UserService:Symbol.for('UserService'),
+  LineService: Symbol.for('LineService'),
+  UserService: Symbol.for('UserService'),
 
-  Test: Symbol.for('Test'),
-  TestMiddleware: Symbol.for('TestMiddleware'),
+  LineEventHandler: Symbol.for('LineEventHandler'),
+  LineEventHandlerFactory: Symbol.for('LineEventHandlerFactory'),
+  LineMessageEventHandler: Symbol.for('LineMessageEventHandler'),
+  LineMessageEventHandlerFactory: Symbol.for('LineMessageEventHandlerFactory'),
 
-  ValidateLineSignature: Symbol.for('ValidateLineSignature')
+  ValidateLineSignatureMiddleware: Symbol.for('ValidateLineSignatureMiddleware')
 }
