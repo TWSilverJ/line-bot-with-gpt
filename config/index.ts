@@ -43,7 +43,18 @@ export const config = {
 
 export const database: any = {
   dialect: env.DB_DIALECT || 'sqlite',
-  storage: `${cwd()}/private/db.sqlite3`
+  storage: `${cwd()}/private/db.sqlite3`,
+  host: env.DB_HOST || 'localhost',
+  port: env.DB_PORT || 3306,
+  database: env.DB_DATABASE || 'database',
+  username: env.DB_USERNAME,
+  password: env.DB_PASSWORD || '',
+  ssl: false,
+  dialectOptions: {
+    socketPath: env.DB_SOCKET_PATH,
+    bigNumberStrings: true
+  } as any,
+  logging: env.DB_LOG?.toLowerCase() === 'true' || false
 }
 
 export * from './types.js'
