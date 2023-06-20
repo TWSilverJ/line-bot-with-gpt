@@ -12,6 +12,7 @@ RUN npm install && npm cache clean --force
 
 # 複製專案資料與轉譯為 JavaScript
 COPY . .
+RUN npm run build
 
 # 運行應用程式
-CMD ["node", "app.js"]
+CMD ["node", "./dist/app.js"]
